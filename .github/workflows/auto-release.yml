@@ -41,7 +41,7 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
-      - uses: ./.github/workflow/action
+      - uses: ./.github/action/action
         with:
           arch: ${{ matrix.platform.arch }}
           features: ${{ matrix.platform.features }}
