@@ -44,7 +44,6 @@ jobs:
       - uses: ./.github/action/action
         with:
           arch: ${{ matrix.platform.arch }}
-          features: ${{ matrix.platform.features }}
           target: ${{ matrix.platform.target }}
           runs_on: ${{ matrix.platform.os }}
 
