@@ -15,7 +15,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
+        platform:
+          # Linux
+          - os: "ubuntu-22.04"
+            target: "x86_64-unknown-linux-gnu"
+            arch: "x86_64"
+          # Windows
+          - os: "windows-latest"
+            target: "x86_64-pc-windows-msvc"
+            arch: "x86_64"
+          # macOs
+          - os: "macos-latest"
+            target: "aarch64-apple-darwin"
+            # This is not true, but simplifies the logic of the action.
+            arch: "x86_64"
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -27,6 +40,16 @@ jobs:
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
+
+      - uses: ./.github/workflow/action
+        with:
+          arch: ${{ matrix.platform.arch }}
+          features: ${{ matrix.platform.features }}
+          target: ${{ matrix.platform.target }}
+          runs_on: ${{ matrix.platform.os }}
+
+      - name: Enable caching
+        uses: Swatinem/rust-cache@v2
 
       - name: install brew (macos only)
         if: matrix.platform == 'macos-latest'
@@ -41,7 +64,7 @@ jobs:
         if: matrix.platform == 'ubuntu-20.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf  libuv1-dev
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev musl-tools librsvg2-dev patchelf
 
       - name: install frontend dependencies
         run: pnpm install # change this to npm or pnpm depending on which one you use
