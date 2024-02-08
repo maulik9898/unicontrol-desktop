@@ -5,7 +5,7 @@ import { useDeviceStore } from "./store";
 import { Progress } from "./types/Progress";
 import { ErrorMessage } from "./types/ErrorMessage";
 
-const _unlisten = await listen<Events>("logs", (event) => {
+await listen<Events>("logs", (event) => {
   console.log("logs", event.payload);
   switch (event.payload.kind) {
     case "BoardInfoEvent":
@@ -64,7 +64,6 @@ const createProgressBar = (current: number, len: number ): string => {
   const ratio = current / len;
   const filledBarLength = Math.round(ratio * barLength);
   const isComplete = current >= len;
-  const head = !isComplete && filledBarLength > 0 ? 1 : 0; // Add a head if progress is not complete and not at 0
 
   const filledBar = "=".repeat(filledBarLength);
   const headChar = !isComplete && filledBarLength > 0 ? ">" : "="; // Use ">" as head if not complete

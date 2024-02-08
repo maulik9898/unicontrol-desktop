@@ -1,12 +1,20 @@
 import { Minus, Square, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { appWindow } from "@tauri-apps/api/window";
-
+import { deleteFirmwareDir } from "@/data/tauri";
 const WindowControl = () => {
   return (
     <div className="flex gap-2 flex-row-reverse ">
       <Button
-        onClick={() => appWindow.close()}
+        onClick={async () => {
+          try {
+            await deleteFirmwareDir();
+          } catch (error) {
+            console.log(error);
+          } finally {
+            appWindow.close();
+          }
+        }}
         className="rounded-none"
         variant={"ghost"}
         size="sm"

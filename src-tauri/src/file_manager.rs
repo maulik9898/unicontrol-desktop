@@ -73,6 +73,20 @@ impl FileManager {
     }
 
     pub async fn get_file_path(&self, url: &Url) -> Result<PathBuf, TauriError> {
+        let mut cache_path = self.get_firmware_dir_path().await?;
+        cache_path.push(&url.file_name);
+        Ok(cache_path)
+    }
+
+    pub async fn delete_firmware_dir(&self) -> Result<(), TauriError> {
+        let path = self.get_firmware_dir_path().await?;
+        fs::remove_dir_all(path).await.map_err(|err| {
+            error!("Error deleteing firmware dir ");
+            TauriError::FileDeleteError
+        })
+    }
+
+    pub async fn get_firmware_dir_path(&self) -> Result<PathBuf, TauriError> {
         let mut cache_path: PathBuf =
             self.app_handle
                 .path_resolver()
@@ -80,13 +94,13 @@ impl FileManager {
                 .ok_or_else(|| {
                     handle_error_with_event(&self.app_handle, TauriError::CacheDirectoryNotPresent)
                 })?;
+        cache_path.push(".tmp/");
         if !cache_path.is_dir() {
             fs::create_dir_all(&cache_path).await.map_err(|err| {
                 error!("Error creating dir: {}", err.to_string());
                 TauriError::DirCreatingError
             })?;
         }
-        cache_path.push(&url.file_name);
         Ok(cache_path)
     }
 

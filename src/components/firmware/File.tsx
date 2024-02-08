@@ -19,7 +19,7 @@ const File: React.FC<FileProps> = ({ path, type }) => {
   }, [path]);
   return (
     <div className="relative flex w-full gap-4 flex-wrap  p-8">
-      <div className="absolute top-0 left-0 h-full bg-primary/5  transition-all duration-200 " style={{ width: `${progress}%` }}></div>
+      <div className="absolute top-0 left-0 h-full bg-primary/5  motion-reduce:transition-all duration-150 ease-linear " style={{ width: `${progress}%` }}></div>
       <div>
         <FileDigit />
       </div>

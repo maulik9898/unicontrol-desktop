@@ -13,7 +13,7 @@ const DeviceFlash = () => {
         </div>
         <VersionSelection />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow flex flex-col overflow-scroll">
         <LogArea />
       </div>
       <FlashButton />

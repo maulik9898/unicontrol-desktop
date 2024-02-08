@@ -10,6 +10,8 @@ pub mod utils;
 
 use crate::uploader::upload;
 use error::TauriError;
+use file_manager::FileManager;
+use futures_util::TryFutureExt;
 use log::LevelFilter;
 use model::{backend::Url, board_info::BoardInfo, event::Events};
 use serial::{flash_elf_to_device, get_board_info, get_port_info, get_serial_ports};
@@ -32,6 +34,12 @@ async fn board_info(
     let info = BoardInfo::from(info);
     let _ = app_handle.emit_all("logs", Events::BoardInfoEvent(info.clone()));
     Ok(info)
+}
+
+#[tauri::command]
+async fn delete_firmware_dir(app_handle: tauri::AppHandle) -> Result<(), ()> {
+    let file_manager = FileManager::new(app_handle);
+    file_manager.delete_firmware_dir().await.map_err(|_| (()))
 }
 
 #[tauri::command]
@@ -58,7 +66,11 @@ fn main() {
         .plugin(tauri_plugin_upload::init())
         .plugin(tauri_plugin_fs_extra::init())
         .invoke_handler(tauri::generate_handler![
-            port_list, board_info, flash, upload
+            port_list,
+            board_info,
+            flash,
+            upload,
+            delete_firmware_dir
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

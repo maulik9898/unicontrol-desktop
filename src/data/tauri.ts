@@ -10,6 +10,9 @@ export const getPortList = async () => {
   return ports;
 };
 
+export const deleteFirmwareDir = async () => {
+  await invoke<string>("delete_firmware_dir");
+};
 export const getBoardInfo = async (portName: string) => {
   const info = await invoke<BoardInfo>("board_info", {
     portName,
@@ -19,7 +22,7 @@ export const getBoardInfo = async (portName: string) => {
 
 export const startFlashing = async (portName: string, version: string) => {
   const [major, minor, patch] = version.split(".").map((s) => parseInt(s));
-  const data = await getElfDownloadUrl({major, minor, patch})
+  const data = await getElfDownloadUrl({ major, minor, patch });
   await invoke("flash", { portName, url: data.data });
 };
 
@@ -51,7 +54,6 @@ export async function upload(
   progressHandler?: ProgressHandler,
   headers?: Map<string, string>,
 ): Promise<void> {
-
   if (progressHandler != null) {
     handlers.set(id, progressHandler);
   }

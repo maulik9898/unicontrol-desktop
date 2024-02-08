@@ -15,6 +15,7 @@ import { Toaster } from "./components/ui/sonner";
 import { TooltipProvider } from "./components/ui/tooltip";
 import "./event";
 import Decoration from "./components/decoration";
+import GroupChecker from "./components/GroupChecker";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,11 +27,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/firmware",
-        element: <Firmware />,
+        element: (
+          <GroupChecker group={["firmware"]}>
+            <Firmware />
+          </GroupChecker>
+        ),
       },
       {
         index: true,
-        element: <Device />,
+        element: (
+          <GroupChecker group={["deviceAdmin", "flash"]}>
+            <Device />
+          </GroupChecker>
+        ),
       },
     ],
   },

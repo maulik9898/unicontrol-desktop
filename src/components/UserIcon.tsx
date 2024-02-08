@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback  } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserAttributes, signOut } from "aws-amplify/auth";
@@ -20,7 +20,7 @@ const UserIcon = () => {
     },
   });
   return (
-    <div className="flex items-center justify-between space-x-2">
+    <div className="flex flex-col justify-between gap-4 mb-2">
       {userData.data && (
         <div className="flex items-center space-x-2">
           <Avatar>
@@ -41,7 +41,12 @@ const UserIcon = () => {
         </div>
       )}
       <div>
-        <Button onClick={() => signOut()} variant="outline" size="icon">
+        <Button
+          className="flex justify-between w-full"
+          onClick={() => signOut()}
+          variant="outline"
+        >
+          Log Out
           <LogOut className="h-4 w-4" />
         </Button>
       </div>

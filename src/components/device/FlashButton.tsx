@@ -21,7 +21,7 @@ const FlashButton = () => {
     mutationFn: async () => {
       return await flash();
     },
-    onMutate(variables) {
+    onMutate(_variables) {
       setIsFlashing(true);
     },
     onSuccess(variables) {

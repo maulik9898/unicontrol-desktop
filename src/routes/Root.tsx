@@ -11,9 +11,8 @@ const Root = () => {
     <div className="h-full w-full flex-col">
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel
-          defaultSize={265}
-          minSize={30}
-          maxSize={30}
+          minSize={22}
+          maxSize={22}
         >
           <SideBar />
         </ResizablePanel>

@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "unicontrol-desktop",
+    "productName": "Unicontrol",
     "version": "0.0.0"
   },
   "tauri": {
@@ -37,7 +37,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.unicontrol.desktop",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",

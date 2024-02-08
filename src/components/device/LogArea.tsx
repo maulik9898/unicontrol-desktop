@@ -5,7 +5,7 @@ const LogArea = () => {
 
   return (
     <div
-      className={`h-full overflow-y-auto  border p-4 rounded flex flex-col gap-1 `}
+      className={`flex flex-col flex-grow overflow-y-auto border p-4 rounded gap-1`}
     >
       {Array.from(logs.entries()).map(([key, value]) => {
         return (

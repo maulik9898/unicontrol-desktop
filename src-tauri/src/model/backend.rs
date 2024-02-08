@@ -60,12 +60,26 @@ pub struct Device {
     pub email: String,
 }
 
+#[derive(Deserialize, Serialize)]
+pub struct Pagination<T> {
+    pub page: usize,
+    pub page_size: usize,
+    pub search: T,
+}
+
 #[derive(TS)]
 #[ts(export, export_to = "../src/types/")]
-#[derive(Deserialize)]
-pub struct Pagination {
-    pub page: u32,
-    pub page_size: u32,
+#[derive(Deserialize, Serialize, Debug)]
+pub struct FirmwareParams {
+    pub version: String,
+}
+
+#[derive(TS)]
+#[ts(export, export_to = "../src/types/")]
+#[derive(Deserialize, Serialize)]
+pub struct DeviceParam {
+    pub id: String,
+    pub email: String,
 }
 
 #[derive(TS)]
@@ -73,9 +87,10 @@ pub struct Pagination {
 #[derive(Serialize)]
 pub struct PaginatedResponse<T> {
     items: Vec<T>,
-    page: u32,
-    page_size: u32,
+    page: usize,
+    page_size: usize,
     total_items: usize, // Optional, if you want to include total item count
+    has_next: bool,
 }
 
 #[derive(TS)]

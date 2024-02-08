@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -26,10 +26,15 @@ const VersionSelection = () => {
     state.selectedVersion,
     state.setSelectedVersion,
   ]);
+  const [search, setSearch] = useState<string>();
   const versionList = useQuery({
-    queryKey: ["version"],
+    queryKey: ["version", search],
     queryFn: async () => {
-      const data = await getFirmwareList();
+      const data = await getFirmwareList({
+        page: 1,
+        page_size: 20,
+        version: search,
+      });
       console.log(data, "  ", selectedVersion);
       if (data.total_items > 0 && selectedVersion == "") {
         setSelectedVersion(data.items[0].version);
@@ -53,7 +58,11 @@ const VersionSelection = () => {
       </PopoverTrigger>
       <PopoverContent className="w-[130px] p-0">
         <Command>
-          <CommandInput placeholder="Search..." />
+          <CommandInput
+            value={search}
+            onInput={(d) => setSearch(d.currentTarget.value)}
+            placeholder="Search..."
+          />
           <CommandEmpty>No version found.</CommandEmpty>
           {versionList.data && (
             <ScrollArea className="h-64">
