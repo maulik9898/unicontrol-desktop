@@ -44,7 +44,7 @@ jobs:
       - uses: ./.github/action/action
         with:
           arch: ${{ matrix.platform.arch }}
-          target: ${{ matrgx.platform.target }}
+          target: ${{ matrix.platform.target }}
           runs_on: ${{ matrix.platform.os }}
 
       - name: Enable caching
